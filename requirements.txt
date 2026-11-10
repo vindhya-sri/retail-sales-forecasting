@@ -1,0 +1,10 @@
+Flask
+gunicorn
+pandas
+numpy
+xgboost
+scikit-learn
+requests
+python-dotenv
+matplotlib
+datasets

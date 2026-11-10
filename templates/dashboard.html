@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Spatiotemporal Deep Learning Framework For Context-Aware Retail Sales Forecasting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- ░░ ANIMATED BACKGROUND ░░ -->
+<div class="bg-orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- ════════════════════ HERO HEADER ════════════════════ -->
+  <header class="hero-header">
+    <h1 class="hero-title">
+      <span class="hero-sub">A  Spatiotemporal Deep Learning Framework For Context-Aware Retail Sales Forecasting</span>
+    </h1>
+    <div class="hero-pills">
+      <span class="pill">📊 Revenue Forecasting</span>
+      <span class="pill">🏙️ City Analytics</span>
+      <span class="pill">🛒 Product Intelligence</span>
+      <span class="pill">👤 Customer Insights</span>
+    </div>
+  </header>
+
+  <!-- ════════════════════ UPLOAD CARD ════════════════════ -->
+  <section class="card-glass upload-card animate-in" style="--delay:0.1s">
+    <div class="card-label">📂 Data Source</div>
+    <h2 class="section-title">Upload Dataset</h2>
+    <p class="section-hint">Upload your CSV file</p>
+
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <div class="upload-icon">☁️</div>
+      <div class="upload-text">Drop CSV here or <span class="link-text">browse</span></div>
+      <div class="upload-sub" id="fileName">No file selected</div>
+      <input type="file" id="fileInput" accept=".csv" onchange="handleFileSelect(this)" hidden>
+    </div>
+
+    <button class="btn btn-primary" onclick="uploadDataset()">
+      <span class="btn-icon">⬆️</span> Upload Dataset
+    </button>
+    <p id="uploadMessage" class="status-msg"></p>
+  </section>
+
+  <!-- ════════════════════ FORECAST SECTION ════════════════════ -->
+  <section class="card-glass animate-in" style="--delay:0.2s">
+    <div class="card-label">📈 Prediction Engine</div>
+    <h2 class="section-title">Revenue Forecasting</h2>
+    <p class="section-hint">Natural language queries — try "forecast next 6 months" or "predict next 90 days"</p>
+
+    <div class="input-row">
+      <div class="input-wrap">
+        <span class="input-icon">🔍</span>
+        <input type="text" id="queryInput" class="styled-input"
+               placeholder="e.g. forecast next 6 months">
+      </div>
+      <button class="btn btn-primary" onclick="runForecast()">
+        <span class="btn-icon">⚡</span> Generate Forecast
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════════════════ FORECAST RESULTS ════════════════════ -->
+  <div id="forecastResults" class="forecast-results hidden">
+
+    <!-- KPI GRID -->
+    <div class="kpi-grid">
+
+      <div class="kpi-card animate-kpi" style="--delay:0s">
+        <div class="kpi-icon">📅</div>
+        <div class="kpi-label">Forecast Horizon</div>
+        <div class="kpi-value" id="horizon">—</div>
+      </div>
+
+      <div class="kpi-card kpi-green animate-kpi" style="--delay:0.1s">
+        <div class="kpi-icon">💰</div>
+        <div class="kpi-label">Total Revenue</div>
+        <div class="kpi-value" id="total">—</div>
+      </div>
+
+      <div class="kpi-card kpi-purple animate-kpi" style="--delay:0.2s">
+        <div class="kpi-icon">📊</div>
+        <div class="kpi-label">Avg Daily Revenue</div>
+        <div class="kpi-value" id="average">—</div>
+      </div>
+
+    </div>
+
+    <!-- AI SUMMARY -->
+    <div class="card-glass animate-in result-card" style="--delay:0.3s">
+      <div class="card-label">🧠 Mistral AI</div>
+      <h3 class="card-title">AI Executive Business Summary</h3>
+      <div class="ai-box" id="insight">
+        <div class="ai-loading">
+          <div class="spinner"></div>
+          <span>Generating executive summary…</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART -->
+    <div class="card-glass animate-in result-card" style="--delay:0.4s">
+      <div class="card-label">📉 Visualization</div>
+      <h3 class="card-title">Forecast Trend</h3>
+      <div class="chart-wrap">
+        <img id="forecastChart" alt="Forecast chart" />
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════════════ INTELLIGENCE SECTION ════════════════════ -->
+  <section class="card-glass animate-in" style="--delay:0.3s">
+    <div class="card-label">🔬 Business Intelligence</div>
+    <h2 class="section-title">Business Intelligence</h2>
+    <p class="section-hint">Ask about cities, products, customers — e.g. "show top 5 cities" or "top 10 customers"</p>
+
+    <div class="input-row">
+      <div class="input-wrap">
+        <span class="input-icon">💡</span>
+        <input type="text" id="intelQuery" class="styled-input"
+               placeholder="e.g. show top 10 cities and customer performance">
+      </div>
+      <button class="btn btn-secondary" onclick="runIntelligence()">
+        <span class="btn-icon">🔎</span> Analyze
+      </button>
+    </div>
+  </section>
+
+  <!-- ════════════════════ INTELLIGENCE RESULTS ════════════════════ -->
+  <div id="intelResults" class="hidden">
+    <div class="intel-grid">
+
+      <div class="card-glass animate-in" style="--delay:0.1s">
+        <div class="card-label">📋 Structured Data</div>
+        <h3 class="card-title">Structured Analytics</h3>
+        <div class="json-wrap">
+          <pre id="intelStructured" class="json-box">Loading…</pre>
+        </div>
+      </div>
+
+      <div class="card-glass animate-in" style="--delay:0.2s">
+        <div class="card-label">🧠 Mistral AI</div>
+        <h3 class="card-title">AI Strategic Explanation</h3>
+        <div class="ai-box" id="intelExplanation">
+          <div class="ai-loading">
+            <div class="spinner"></div>
+            <span>Generating AI insights…</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+
+<script>
+/* ═══════════════════════════════════════════
+   FILE UPLOAD HELPERS
+═══════════════════════════════════════════ */
+function handleFileSelect(input) {
+  const name = input.files[0]?.name || "No file selected";
+  document.getElementById("fileName").textContent = name;
+  const zone = document.getElementById("uploadZone");
+  zone.classList.add("zone-selected");
+}
+
+async function uploadDataset() {
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) { showStatus("uploadMessage", "⚠️ Please select a CSV file first.", "warn"); return; }
+
+  showStatus("uploadMessage", "⏳ Uploading…", "info");
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const resp = await fetch("/upload", { method: "POST", body: formData });
+    const responseText = await resp.text();
+
+let data;
+
+try {
+    const resp = await fetch("/intelligence", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ query })
+    });
+
+    const responseText = await resp.text();
+    let data;
+
+    try {
+        data = JSON.parse(responseText);
+    } catch (error) {
+        console.error("Invalid server response:", responseText);
+        throw new Error("Server returned HTML or invalid JSON. Check F12 Console.");
+    }
+
+    if (!resp.ok) {
+        throw new Error(data.error || `HTTP Error ${resp.status}`);
+    }
+
+    document.getElementById("intelStructured").textContent =
+        JSON.stringify(data.structured_data, null, 2);
+
+    setHTML("intelExplanation", renderMarkdown(data.llm_explanation));
+
+} catch (e) {
+    setHTML("intelExplanation",
+        `<span style="color:#dc2626">❌ Error: ${e.message}</span>`
+    );
+}
+
+/* ═══════════════════════════════════════════
+   FORECAST
+═══════════════════════════════════════════ */
+async function runForecast() {
+  const query = document.getElementById("queryInput").value.trim();
+  if (!query) { alert("Please enter a forecast query."); return; }
+
+  const resultsDiv = document.getElementById("forecastResults");
+  resultsDiv.classList.remove("hidden");
+  resultsDiv.classList.add("fade-in");
+
+  // Reset to loading state
+  setText("horizon", "⏳ Loading…");
+  setText("total",   "⏳ Loading…");
+  setText("average", "⏳ Loading…");
+  setHTML("insight", loadingHTML("Generating executive summary…"));
+  document.getElementById("forecastChart").src = "";
+
+  try {
+    const resp = await fetch("/forecast", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ query })
+    });
+    const data = await resp.json();
+
+    // ✅ KPI values — always visible
+    setText("horizon", data.horizon_days + " days");
+    setText("total",   "₦ " + fmtNum(data.total_revenue));
+    setText("average", "₦ " + fmtNum(data.average_daily_revenue));
+
+    // ✅ AI summary — render markdown-like bold headings
+    setHTML("insight", renderMarkdown(data.business_insight));
+
+    // ✅ Chart
+    document.getElementById("forecastChart").src = data.forecast_chart;
+
+  } catch (e) {
+    setHTML("insight", `<span style="color:#dc2626">❌ Error: ${e.message}</span>`);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   INTELLIGENCE
+═══════════════════════════════════════════ */
+async function runIntelligence() {
+  const query = document.getElementById("intelQuery").value.trim();
+  if (!query) { alert("Please enter an intelligence query."); return; }
+
+  const intelDiv = document.getElementById("intelResults");
+  intelDiv.classList.remove("hidden");
+  intelDiv.classList.add("fade-in");
+
+  document.getElementById("intelStructured").textContent = "Processing…";
+  setHTML("intelExplanation", loadingHTML("Generating AI insights…"));
+
+  try {
+    const resp = await fetch("/intelligence", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ query })
+    });
+    const data = await resp.json();
+
+    // ✅ Structured JSON — pretty printed with city names visible
+    document.getElementById("intelStructured").textContent =
+      JSON.stringify(data.structured_data, null, 2);
+
+    // ✅ AI explanation
+    setHTML("intelExplanation", renderMarkdown(data.llm_explanation));
+
+  } catch (e) {
+    setHTML("intelExplanation", `<span style="color:#dc2626">❌ Error: ${e.message}</span>`);
+  }
+}
+
+/* ═══════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════ */
+function fmtNum(n) {
+  // Always show the number, fallback to raw if NaN
+  const num = parseFloat(n);
+  if (isNaN(num)) return String(n);
+  return num.toLocaleString("en-NG", { maximumFractionDigits: 2 });
+}
+
+function setText(id, txt) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = txt;
+}
+
+function setHTML(id, html) {
+  const el = document.getElementById(id);
+  if (el) el.innerHTML = html;
+}
+
+function loadingHTML(msg) {
+  return `<div class="ai-loading"><div class="spinner"></div><span>${msg}</span></div>`;
+}
+
+function renderMarkdown(text) {
+  if (!text) return "<em>No content returned.</em>";
+  // Bold headings: **text**
+  let html = text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^\d+\.\s/gm, (m) => `<span class="list-num">${m}</span>`);
+  return `<p>${html}</p>`;
+}
+
+function showStatus(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = "status-msg status-" + type;
+}
+
+// ── Drag-and-drop on upload zone
+const zone = document.getElementById("uploadZone");
+zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("zone-drag"); });
+zone.addEventListener("dragleave", () => zone.classList.remove("zone-drag"));
+zone.addEventListener("drop", e => {
+  e.preventDefault();
+  zone.classList.remove("zone-drag");
+  const file = e.dataTransfer.files[0];
+  if (file) {
+    document.getElementById("fileInput").files = e.dataTransfer.files;
+    handleFileSelect(document.getElementById("fileInput"));
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+    "XGBoost_MAE": 8218330.038617891,
+    "LSTM_MAE": 669055232.0,
+    "Transformer_MAE": 304740480.0,
+    "Best_Model": "XGBoost"
+}

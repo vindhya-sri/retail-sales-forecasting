@@ -1,0 +1,20 @@
+[
+    "total_quantity",
+    "avg_unit_price",
+    "avg_discount",
+    "repeat_ratio",
+    "day_of_week",
+    "month",
+    "quarter",
+    "year",
+    "is_weekend",
+    "lag_1",
+    "lag_7",
+    "lag_14",
+    "lag_30",
+    "lag_60",
+    "lag_90",
+    "rolling_mean_7",
+    "rolling_mean_30",
+    "rolling_std_30"
+]

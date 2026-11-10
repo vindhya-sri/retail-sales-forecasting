@@ -1,0 +1,16 @@
+{
+    "lags": [
+        1,
+        7,
+        14,
+        30,
+        60,
+        90
+    ],
+    "rolling_windows": [
+        7,
+        30
+    ],
+    "model_type": "xgboost",
+    "forecast_type": "recursive_multi_horizon"
+}
